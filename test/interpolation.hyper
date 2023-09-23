@@ -1,0 +1,7 @@
+<script>
+    const name = "Joe Smith"
+    const age = 42
+    const city = "New York"
+</script>
+
+<h1>Hello, {name} ({age}) from {city}</h1>
