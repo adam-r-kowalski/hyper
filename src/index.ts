@@ -1,17 +1,17 @@
 import { JSDOM } from "jsdom";
-import { Tree, Child } from "./jsx-dev-runtime";
+import { Tree, Children } from "./jsx-dev-runtime";
 
-function* childParts(child: Child): Generator<string> {
-  if (typeof child === "string") {
-    yield child;
-  } else if (typeof child === "number") {
-    yield child.toString();
-  } else if (Array.isArray(child)) {
-    for (const c of child) {
+function* childParts(children: Children): Generator<string> {
+  if (typeof children === "string") {
+    yield children;
+  } else if (typeof children === "number") {
+    yield children.toString();
+  } else if (Array.isArray(children)) {
+    for (const c of children) {
       yield* childParts(c);
     }
   } else {
-    yield* parts(child);
+    yield* parts(children);
   }
 }
 
@@ -21,6 +21,15 @@ function* parts(tree: Tree): Generator<string> {
     yield* childParts(result);
   } else if (tree.tag === "Fragment") {
     yield* childParts(tree.props!.children!);
+  } else if (tree.tag === "style") {
+    const children = tree.props!.children!;
+    if (typeof children === "string") {
+      const trimmed = children
+        .split("\n")
+        .map((line) => line.trim())
+        .join("\n");
+      yield `<style>${trimmed}</style>`;
+    }
   } else {
     yield `<${tree.tag}`;
     if (tree.props?.children) {
@@ -52,13 +61,7 @@ function styleContent(dom: JSDOM): string {
   if (style) {
     const styleContent = style.textContent ?? "";
     style.remove();
-    return `
-<style>
-\{\`
-${styleContent}
-\`\}
-</style>
-`;
+    return `<style>\{\`${styleContent}\`\}</style>`;
   }
   return "";
 }

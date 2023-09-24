@@ -1,7 +1,7 @@
-export type Child = string | number | Tree | Child[];
+export type Children = string | number | Tree | Children[];
 
 export interface Props {
-  children?: Child[];
+  children?: Children;
 }
 
 export interface Tree {
@@ -20,5 +20,5 @@ export function Fragment(props: Props): Tree {
   return {
     tag: "Fragment",
     props,
-  }
+  };
 }
