@@ -1,4 +1,0 @@
-preload = ["./src/hyperLoader.ts"]
-
-[test]
-preload = ["./src/hyperLoader.ts"]

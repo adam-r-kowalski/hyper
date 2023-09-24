@@ -1,0 +1,12 @@
+<script>
+    const first = "Jack"
+    const last = "Smith"
+</script>
+
+<style>
+    body {
+        font-family: sans-serif;
+    }
+</style>
+
+<h1>Hello {first} {last}</h1>
